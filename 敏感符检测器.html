@@ -1,0 +1,108 @@
+<!--"https://chat.deepseek.com/a/chat/s/a8a5a4e1-9b91-4af1-ab80-b8b737fa6223"-->
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>敏感词替换工具</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .replace-rule {
+            display: flex;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        .replace-rule span.sensitive-word {
+            font-weight: bold;
+            min-width: 30px;
+        }
+        .replace-rule input {
+            margin-left: 10px;
+            padding: 5px;
+            width: 100px;
+        }
+        .replace-rules-container {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>敏感词替换工具</h1>
+    
+    <div class="replace-rules-container">
+        <h3>替换结果设置</h3>
+        <div id="replaceRules">
+            <div class="replace-rule">
+                <span class="sensitive-word">c(U+808F)</span>
+                <span>→</span>
+                <input type="text" value="嘈" placeholder="替换词" id="replace1">
+            </div>
+            <div class="replace-rule">
+                <span class="sensitive-word">b(U+5C44)</span>
+                <span>→</span>
+                <input type="text" value="璧" placeholder="替换词" id="replace2">
+            </div>
+            <div class="replace-rule">
+                <span class="sensitive-word">҉(U+0489)</span>
+                <span>→</span>
+                <input type="text" value="꙰" placeholder="替换词" id="replace3">
+            </div>
+        </div>
+    </div>
+    
+    <textarea id="inputText" placeholder="请输入要替换的文本..."></textarea>
+    <button onclick="replaceSensitiveWords()">替换敏感词</button>
+    <textarea id="outputText" placeholder="替换后的文本将显示在这里..." readonly></textarea>
+    
+    <script>
+        function replaceSensitiveWords() {
+            // 固定敏感词，不允许修改
+            const sensitiveWords = [String.fromCodePoint(0x808F), String.fromCodePoint(0x5C44), '҉'];
+            
+            // 从输入框获取替换词
+            const replacementWords = [
+                document.getElementById('replace1').value.trim(),
+                document.getElementById('replace2').value.trim(),
+                document.getElementById('replace3').value.trim()
+            ];
+            
+            // 获取输入文本
+            const inputText = document.getElementById('inputText').value;
+            let outputText = inputText;
+            
+            // 逐个替换敏感词
+            for (let i = 0; i < sensitiveWords.length; i++) {
+                const regex = new RegExp(sensitiveWords[i], 'g');
+                outputText = outputText.replace(regex, replacementWords[i]);
+            }
+            
+            // 显示结果
+            document.getElementById('outputText').value = outputText;
+        }
+    </script>
+</body>
+</html>
